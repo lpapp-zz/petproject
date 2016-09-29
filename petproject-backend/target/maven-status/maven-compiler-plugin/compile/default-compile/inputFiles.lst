@@ -1,0 +1,11 @@
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\Application.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\services\ApplicationService.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\rest\PhonebookResource.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\domain\PersonResponse.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\persistence\repository\ProfilePictureRepository.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\ec2\ApplicationInfoBean.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\persistence\repository\PersonRepository.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\configuration\JacksonObjectMapperProvider.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\persistence\entitiy\ProfilePicture.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\persistence\entitiy\Person.java
+C:\git-workspace\petproject\petproject-backend\src\main\java\com\aws\petproject\services\ResourceLoadingService.java

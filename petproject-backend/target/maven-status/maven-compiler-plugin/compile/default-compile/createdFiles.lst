@@ -1,0 +1,11 @@
+com\aws\petproject\rest\PhonebookResource.class
+com\aws\petproject\ec2\ApplicationInfoBean.class
+com\aws\petproject\Application.class
+com\aws\petproject\services\ApplicationService.class
+com\aws\petproject\persistence\entitiy\Person.class
+com\aws\petproject\persistence\repository\ProfilePictureRepository.class
+com\aws\petproject\configuration\JacksonObjectMapperProvider.class
+com\aws\petproject\domain\PersonResponse.class
+com\aws\petproject\services\ResourceLoadingService.class
+com\aws\petproject\persistence\repository\PersonRepository.class
+com\aws\petproject\persistence\entitiy\ProfilePicture.class
