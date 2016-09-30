@@ -49,7 +49,8 @@ public class PhonebookResource {
     @Consumes( {"application/json"} )
     @Produces( {"application/json"} )
     Response savePerson( @NotNull(message = "Invalid input encountered") @Valid Person person ) {
-        return null;
+        personRepository.saveAndFlush(person);
+        return Response.accepted().build();
     }
 
     @Produces( {"application/json"} )

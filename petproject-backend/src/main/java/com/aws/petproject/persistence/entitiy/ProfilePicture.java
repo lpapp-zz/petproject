@@ -1,5 +1,7 @@
 package com.aws.petproject.persistence.entitiy;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by 212476263 on 2016.09.29..
  */
+@JsonAutoDetect
 @Entity
 @Table(name = "profile_picture")
 public class ProfilePicture {
@@ -25,7 +28,7 @@ public class ProfilePicture {
     @Column( name = "profile_picture_id", updatable = false )
     private Integer profilePictureId;
 
-    @Column(name = "picture_path")
+    @Column(name = "picture_path", nullable = false)
     private String picturePath;
 
     public Integer getProfilePictureId() {

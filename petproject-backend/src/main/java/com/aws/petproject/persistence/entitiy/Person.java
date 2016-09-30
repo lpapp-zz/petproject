@@ -1,5 +1,7 @@
 package com.aws.petproject.persistence.entitiy;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -18,6 +20,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by 212476263 on 2016.09.29..
  */
+@JsonAutoDetect
 @Entity
 @Table(name = "person")
 public class Person {
@@ -34,7 +37,7 @@ public class Person {
     @Column(name = "forname", nullable = false)
     private String forname;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_picture_id")
     private ProfilePicture profilePicture;
 
