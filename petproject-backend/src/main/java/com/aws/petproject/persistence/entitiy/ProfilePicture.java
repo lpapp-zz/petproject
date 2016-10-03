@@ -17,15 +17,13 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by 212476263 on 2016.09.29..
  */
-@JsonAutoDetect
 @Entity
 @Table(name = "profile_picture")
 public class ProfilePicture {
 
     @Id
-    @NotNull
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    @Column( name = "profile_picture_id", updatable = false )
+    @Column( name = "profile_picture_id", updatable = false, nullable = false)
     private Integer profilePictureId;
 
     @Column(name = "picture_path", nullable = false)

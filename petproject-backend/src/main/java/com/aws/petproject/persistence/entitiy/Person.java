@@ -20,15 +20,13 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by 212476263 on 2016.09.29..
  */
-@JsonAutoDetect
 @Entity
 @Table(name = "person")
 public class Person {
 
     @Id
-    @NotNull
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    @Column( name = "id", updatable = false )
+    @Column( name = "id", updatable = false, nullable = false)
     private Integer id;
 
     @Column(name = "last_name", nullable = false)

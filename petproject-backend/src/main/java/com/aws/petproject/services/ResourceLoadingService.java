@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by 212476263 on 2016.09.28..
  */
-@Service
+//@Service
 public class ResourceLoadingService {
 
     @Autowired
