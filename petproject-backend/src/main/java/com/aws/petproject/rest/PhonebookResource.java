@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,9 +67,10 @@ public class PhonebookResource {
         return personService.getPersonDTO( personId );
     }
 
+    @Consumes({"multipart/form-data"})
     @RequestMapping( method = RequestMethod.POST, value = "/upload/{personId}" )
     public Response handleFileUpload( @PathVariable Integer personId,
-                             @RequestParam("file") MultipartFile file) throws IOException {
+                             @RequestPart("file") MultipartFile file) throws IOException {
 
         profilePictureService.saveProfilePicture( file, personId );
 
