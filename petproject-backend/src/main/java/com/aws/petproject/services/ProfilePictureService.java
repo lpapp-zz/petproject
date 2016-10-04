@@ -58,7 +58,7 @@ public class ProfilePictureService {
     public void saveProfilePicture(MultipartFile file, Integer personId) throws IOException {
         String fileUrl = uploadResource(file);
         Person person = personService.getPerson( personId );
-        ProfilePicture profilePicture = Optional.of(person.getProfilePicture()).orElse( new ProfilePicture() );
+        ProfilePicture profilePicture = Optional.ofNullable(person.getProfilePicture()).orElse( new ProfilePicture() );
         profilePicture.setPicturePath( fileUrl );
 
         profilePicture = profilePictureRepository.saveAndFlush( profilePicture );
