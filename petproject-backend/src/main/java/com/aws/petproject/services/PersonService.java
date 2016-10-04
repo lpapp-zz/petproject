@@ -29,8 +29,8 @@ public class PersonService {
         return personRepository.saveAndFlush( person );
     }
 
-    public PersonDTO getPerson(Integer personId) {
-        Person person = personRepository.getOne( personId );
+    public PersonDTO getPersonDTO( Integer personId) {
+        Person person = getPerson( personId );
         PersonDTO personDTO = new PersonDTO();
         personDTO.setForname( person.getForname() );
         personDTO.setLastName( person.getLastName() );
@@ -40,6 +40,14 @@ public class PersonService {
         personDTO.setProfilePicture( profilePictureDTO );
 
         return personDTO;
+    }
+
+    public Person getPerson(Integer personId) {
+        return personRepository.getOne( personId );
+    }
+
+    public Person savePerson(Person person) {
+        return personRepository.saveAndFlush( person );
     }
 
 }

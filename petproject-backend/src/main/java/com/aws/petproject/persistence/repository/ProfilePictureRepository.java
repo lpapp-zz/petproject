@@ -7,6 +7,6 @@ import com.aws.petproject.persistence.entitiy.ProfilePicture;
 /**
  * Created by 212476263 on 2016.09.29..
  */
-public interface ProfilePictureRepository  extends JpaRepository<ProfilePicture, Integer>{
+public interface ProfilePictureRepository extends JpaRepository<ProfilePicture, Integer>{
 
 }
