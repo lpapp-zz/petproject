@@ -74,20 +74,22 @@ public class PhonebookResource {
     @Consumes({"multipart/form-data"})
     @RequestMapping( method = RequestMethod.POST, value = "/upload/{personId}" )
     public Response handleFileUpload( MultipartHttpServletRequest request,
-                                      @PathVariable Integer personId) throws IOException {
+                                      @PathVariable Integer personId) {
         Iterator<String> iterator = request.getFileNames();
-        while (iterator.hasNext()) {
-            String fileName = iterator.next();
-            MultipartFile file = request.getFile( fileName );
+        try {
+            while ( iterator.hasNext() ) {
+                String fileName = iterator.next();
+                MultipartFile file = request.getFile( fileName );
 
-            if (!file.isEmpty()) {
-                profilePictureService.saveProfilePicture( file, personId );
-
-                return Response.accepted().build();
-            } else {
-                return Response.serverError().build();
+                if ( !file.isEmpty() ) {
+                    profilePictureService.saveProfilePicture( file, personId );
+                }
             }
+        } catch ( IOException ex ) {
+            return Response.serverError().build();
         }
+
+        return Response.accepted().build();
     }
 
 }
