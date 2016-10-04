@@ -70,11 +70,15 @@ public class PhonebookResource {
     @Consumes({"multipart/form-data"})
     @RequestMapping( method = RequestMethod.POST, value = "/upload/{personId}" )
     public Response handleFileUpload( @PathVariable Integer personId,
-                             @RequestPart("file") MultipartFile file) throws IOException {
+                             @RequestParam("file") MultipartFile file) throws IOException {
 
-        profilePictureService.saveProfilePicture( file, personId );
+        if (!file.isEmpty()) {
+            profilePictureService.saveProfilePicture( file, personId );
 
-        return Response.accepted().build();
+            return Response.accepted().build();
+        } else {
+            return Response.serverError().build();
+        }
     }
 
 }
