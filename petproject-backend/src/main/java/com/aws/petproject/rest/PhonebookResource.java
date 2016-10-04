@@ -34,7 +34,6 @@ import com.aws.petproject.persistence.entitiy.Person;
  * Created by 212476263 on 2016.09.29..
  */
 @RestController
-@MultipartConfig(fileSizeThreshold = 20971520)
 public class PhonebookResource {
 
     private final PersonService personService;
