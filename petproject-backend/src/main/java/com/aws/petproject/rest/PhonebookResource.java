@@ -3,6 +3,7 @@ package com.aws.petproject.rest;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
@@ -31,6 +32,7 @@ import com.aws.petproject.persistence.entitiy.Person;
  * Created by 212476263 on 2016.09.29..
  */
 @RestController
+@MultipartConfig(fileSizeThreshold = 20971520)
 public class PhonebookResource {
 
     private final PersonService personService;
@@ -69,8 +71,8 @@ public class PhonebookResource {
 
     @Consumes({"multipart/form-data"})
     @RequestMapping( method = RequestMethod.POST, value = "/upload/{personId}" )
-    public Response handleFileUpload( @PathVariable Integer personId,
-                             @RequestParam(name = "file", required = true) MultipartFile file) throws IOException {
+    public Response handleFileUpload( @RequestBody MultipartFile file,
+                                      @PathVariable Integer personId) throws IOException {
 
         if (!file.isEmpty()) {
             profilePictureService.saveProfilePicture( file, personId );
