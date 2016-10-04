@@ -79,11 +79,12 @@ public class PhonebookResource {
         try {
             while ( iterator.hasNext() ) {
                 String fileName = iterator.next();
+                System.out.println(fileName);
                 MultipartFile file = request.getFile( fileName );
 
-                if ( !file.isEmpty() ) {
+//                if ( !file.isEmpty() ) {
                     profilePictureService.saveProfilePicture( file, personId );
-                }
+//                }
             }
         } catch ( IOException ex ) {
             return Response.serverError().build();
