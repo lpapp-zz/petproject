@@ -1,6 +1,7 @@
 package com.aws.petproject.rest;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Optional;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.aws.petproject.ec2.ApplicationInfoBean;
 import com.aws.petproject.persistence.dto.PersonDTO;
@@ -71,15 +73,20 @@ public class PhonebookResource {
 
     @Consumes({"multipart/form-data"})
     @RequestMapping( method = RequestMethod.POST, value = "/upload/{personId}" )
-    public Response handleFileUpload( @RequestBody MultipartFile file,
+    public Response handleFileUpload( MultipartHttpServletRequest request,
                                       @PathVariable Integer personId) throws IOException {
+        Iterator<String> iterator = request.getFileNames();
+        while (iterator.hasNext()) {
+            String fileName = iterator.next();
+            MultipartFile file = request.getFile( fileName );
 
-        if (!file.isEmpty()) {
-            profilePictureService.saveProfilePicture( file, personId );
+            if (!file.isEmpty()) {
+                profilePictureService.saveProfilePicture( file, personId );
 
-            return Response.accepted().build();
-        } else {
-            return Response.serverError().build();
+                return Response.accepted().build();
+            } else {
+                return Response.serverError().build();
+            }
         }
     }
 
