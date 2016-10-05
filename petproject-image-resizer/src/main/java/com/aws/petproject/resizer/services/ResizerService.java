@@ -27,7 +27,7 @@ public class ResizerService {
     private ResourceLoader resourceLoader;
 
     public void resizeImage( String imagePath ) throws IOException {
-        InputStream inputStream = s3Service.downloadResource( imagePath );
+        File file = s3Service.downloadResourceAsFile( imagePath );
 
         String fileName = imagePath.substring(imagePath.lastIndexOf( "/" ) + 1, imagePath.length());
         String resourcePath = imagePath.substring(0, imagePath.lastIndexOf( "/" ) + 1);
@@ -38,10 +38,10 @@ public class ResizerService {
         WritableResource writableResource = (WritableResource) resource;
         OutputStream outputStream = writableResource.getOutputStream();
 
-        Thumbnails.of( inputStream )
+        Thumbnails.of( file )
           .size( 64, 48 )
           .useOriginalFormat()
-          .toOutputStream( outputStream );
+          .toFile( file );
 
         outputStream.flush();
 

@@ -30,4 +30,9 @@ public class S3Service {
         return resource.getInputStream();
     }
 
+    public File downloadResourceAsFile( String profilePicturePath) throws IOException {
+        Resource resource = this.resourceLoader.getResource(profilePicturePath);
+        return resource.getFile();
+    }
+
 }
