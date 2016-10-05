@@ -1,10 +1,15 @@
 package com.aws.petproject.resizer.services;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.WritableResource;
 import org.springframework.stereotype.Component;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -18,21 +23,27 @@ public class ResizerService {
     @Autowired
     private S3Service s3Service;
 
+    @Autowired
+    private ResourceLoader resourceLoader;
+
     public void resizeImage( String imagePath ) throws IOException {
         InputStream inputStream = s3Service.downloadResource( imagePath );
 
         String fileName = imagePath.substring(imagePath.lastIndexOf( "/" ), imagePath.length());
+        String resourcePath = imagePath.substring(0, imagePath.lastIndexOf( "/" ));
 
-        File thumbnailImage = new File(fileName);
+        String resourceUrl = resourcePath + "thumbnail." + fileName;
+
+        Resource resource = this.resourceLoader.getResource(resourceUrl);
+        WritableResource writableResource = (WritableResource) resource;
+        OutputStream outputStream = writableResource.getOutputStream();
 
         Thumbnails.of( inputStream )
           .size( 64, 48 )
           .useOriginalFormat()
-          .toFile( thumbnailImage );
+          .toOutputStream( outputStream );
 
-        String thumbnailS3Path = s3Service.uploadResource( thumbnailImage );
-
-        System.out.println( thumbnailS3Path );
+        System.out.println( resourceUrl );
     }
 
 }
