@@ -29,8 +29,8 @@ public class ResizerService {
     public void resizeImage( String imagePath ) throws IOException {
         InputStream inputStream = s3Service.downloadResource( imagePath );
 
-        String fileName = imagePath.substring(imagePath.lastIndexOf( "/" ), imagePath.length());
-        String resourcePath = imagePath.substring(0, imagePath.lastIndexOf( "/" ));
+        String fileName = imagePath.substring(imagePath.lastIndexOf( "/" ) + 1, imagePath.length());
+        String resourcePath = imagePath.substring(0, imagePath.lastIndexOf( "/" ) + 1);
 
         String resourceUrl = resourcePath + "thumbnail." + fileName;
 
