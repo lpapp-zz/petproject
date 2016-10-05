@@ -1,6 +1,7 @@
 *.impl
 *.class
-petproject-backend\target\
 petproject-backend/.idea/
-petproject-backend/target/**
+petproject-backend/target/
 *.iml
+petproject-image-resizer/.idea/
+petproject-image-resizer/target/

@@ -1,6 +1,7 @@
 package com.aws.petproject.rest;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -81,15 +82,21 @@ public class PhonebookResource {
                 System.out.println(fileName);
                 MultipartFile file = request.getFile( fileName );
 
-//                if ( !file.isEmpty() ) {
+                if ( !file.isEmpty() ) {
                     profilePictureService.saveProfilePicture( file, personId );
-//                }
+                }
             }
         } catch ( IOException ex ) {
             return Response.serverError().build();
         }
 
         return Response.accepted().build();
+    }
+
+    @Produces({"multipart/form-data"})
+    @RequestMapping( method = RequestMethod.POST, value = "/picture/{personId}" )
+    public InputStream handleFileDownload( @PathVariable Integer personId) throws IOException {
+        return profilePictureService.loadProfilePicture( personId );
     }
 
 }

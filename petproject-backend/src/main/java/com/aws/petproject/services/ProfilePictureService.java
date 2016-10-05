@@ -18,6 +18,7 @@ import com.aws.petproject.persistence.entitiy.Person;
 import com.aws.petproject.persistence.entitiy.ProfilePicture;
 import com.aws.petproject.persistence.repository.PersonRepository;
 import com.aws.petproject.persistence.repository.ProfilePictureRepository;
+import com.aws.petproject.queue.SqsQueueSender;
 
 /**
  * Created by 212476263 on 2016.09.28..
@@ -34,6 +35,9 @@ public class ProfilePictureService {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private SqsQueueSender sqsQueueSender;
+
     public String uploadResource( MultipartFile multipartFile) throws IOException {
         String resourcePath = "s3://petproject-bucket/";
         String resourceUrl = resourcePath + multipartFile.getOriginalFilename();
@@ -47,11 +51,9 @@ public class ProfilePictureService {
         return resourceUrl;
     }
 
-    public void downloadResource() throws IOException {
-        Resource resource = this.resourceLoader.getResource("s3://myBucket/rootFile.log");
-        Resource secondResource = this.resourceLoader.getResource("s3://myBucket/rootFolder/subFile");
-
-        InputStream inputStream = resource.getInputStream();
+    public InputStream downloadResource(String profilePicturePath) throws IOException {
+        Resource resource = this.resourceLoader.getResource(profilePicturePath);
+        return resource.getInputStream();
     }
 
     @Transactional
@@ -65,5 +67,17 @@ public class ProfilePictureService {
 
         person.setProfilePicture( profilePicture );
         personService.savePerson( person );
+
+        sqsQueueSender.send( fileUrl );
+    }
+
+    public InputStream loadProfilePicture(Integer personId) throws IOException {
+        Person person = personService.getPerson( personId );
+
+        if (person != null && person.getProfilePicture() != null && !person.getProfilePicture().getPicturePath().isEmpty()) {
+            return downloadResource( person.getProfilePicture().getPicturePath() );
+        } else {
+            return null;
+        }
     }
 }
