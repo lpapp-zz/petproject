@@ -25,19 +25,6 @@ public class S3Service {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    public String uploadResource( MultipartFile multipartFile) throws IOException {
-        String resourcePath = "s3://petproject-bucket/";
-        String resourceUrl = resourcePath + multipartFile.getOriginalFilename();
-
-        Resource resource = this.resourceLoader.getResource(resourceUrl);
-        WritableResource writableResource = (WritableResource) resource;
-        try (OutputStream outputStream = writableResource.getOutputStream()) {
-            outputStream.write(multipartFile.getBytes());
-        }
-
-        return resourceUrl;
-    }
-
     public String uploadResource( File file ) throws IOException {
         String resourcePath = "s3://petproject-bucket/";
         String resourceUrl = resourcePath + "thumbnail." + file.getName();
@@ -52,9 +39,9 @@ public class S3Service {
         return resourceUrl;
     }
 
-    public File downloadResource( String profilePicturePath) throws IOException {
+    public InputStream downloadResource( String profilePicturePath) throws IOException {
         Resource resource = this.resourceLoader.getResource(profilePicturePath);
-        return resource.getFile();
+        return resource.getInputStream();
     }
 
 }
