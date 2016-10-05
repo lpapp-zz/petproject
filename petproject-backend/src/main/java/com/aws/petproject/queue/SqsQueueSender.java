@@ -7,6 +7,7 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import com.amazonaws.services.sqs.AmazonSQS;
+import com.amazonaws.services.sqs.AmazonSQSAsync;
 
 /**
  * Created by 212476263 on 2016.10.05..
@@ -19,8 +20,8 @@ public class SqsQueueSender {
     private final QueueMessagingTemplate queueMessagingTemplate;
 
     @Autowired
-    public SqsQueueSender(AmazonSQS amazonSqs) {
-        this.queueMessagingTemplate = new QueueMessagingTemplate(amazonSqs);
+    public SqsQueueSender(AmazonSQSAsync amazonSQSAsync) {
+        this.queueMessagingTemplate = new QueueMessagingTemplate(amazonSQSAsync);
     }
 
     public void send(String message) {
