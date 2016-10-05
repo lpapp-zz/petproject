@@ -1,6 +1,7 @@
 package com.aws.petproject.resizer.services;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,6 +13,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.WritableResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.amazonaws.util.IOUtils;
 
 /**
  * Created by 212476263 on 2016.10.05..
@@ -41,8 +44,9 @@ public class S3Service {
 
         Resource resource = this.resourceLoader.getResource(resourceUrl);
         WritableResource writableResource = (WritableResource) resource;
+        InputStream inputStream = new FileInputStream( file );
         try (OutputStream outputStream = writableResource.getOutputStream()) {
-            outputStream.write( Files.readAllBytes(file.toPath()));
+            outputStream.write( IOUtils.toByteArray(inputStream));
         }
 
         return resourceUrl;
