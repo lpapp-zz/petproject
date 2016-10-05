@@ -27,9 +27,6 @@ import com.aws.petproject.queue.SqsQueueSender;
 public class ProfilePictureService {
 
     @Autowired
-    private ResourceLoader resourceLoader;
-
-    @Autowired
     private ProfilePictureRepository profilePictureRepository;
 
     @Autowired
@@ -38,27 +35,13 @@ public class ProfilePictureService {
     @Autowired
     private SqsQueueSender sqsQueueSender;
 
-    public String uploadResource( MultipartFile multipartFile) throws IOException {
-        String resourcePath = "s3://petproject-bucket/";
-        String resourceUrl = resourcePath + multipartFile.getOriginalFilename();
+    @Autowired
+    private S3Service s3Service;
 
-        Resource resource = this.resourceLoader.getResource(resourceUrl);
-        WritableResource writableResource = (WritableResource) resource;
-        try (OutputStream outputStream = writableResource.getOutputStream()) {
-            outputStream.write(multipartFile.getBytes());
-        }
-
-        return resourceUrl;
-    }
-
-    public InputStream downloadResource(String profilePicturePath) throws IOException {
-        Resource resource = this.resourceLoader.getResource(profilePicturePath);
-        return resource.getInputStream();
-    }
 
     @Transactional
     public void saveProfilePicture(MultipartFile file, Integer personId) throws IOException {
-        String fileUrl = uploadResource(file);
+        String fileUrl = s3Service.uploadResource(file);
         Person person = personService.getPerson( personId );
         ProfilePicture profilePicture = Optional.ofNullable(person.getProfilePicture()).orElse( new ProfilePicture() );
         profilePicture.setPicturePath( fileUrl );
@@ -75,7 +58,7 @@ public class ProfilePictureService {
         Person person = personService.getPerson( personId );
 
         if (person != null && person.getProfilePicture() != null && !person.getProfilePicture().getPicturePath().isEmpty()) {
-            return downloadResource( person.getProfilePicture().getPicturePath() );
+            return s3Service.downloadResource( person.getProfilePicture().getPicturePath() );
         } else {
             return null;
         }
