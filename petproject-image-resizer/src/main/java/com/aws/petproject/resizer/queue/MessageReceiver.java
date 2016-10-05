@@ -21,7 +21,7 @@ public class MessageReceiver {
         this.queueMessagingTemplate = new QueueMessagingTemplate(amazonSQSAsync);
     }
 
-    @MessageMapping("randomQName")
+    @MessageMapping("petproject-resizer")
     public void messageHandler(String payload) {
         System.out.println("++++++++++++ " + payload);
         //resize
