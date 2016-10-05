@@ -34,6 +34,7 @@ public class ResizerService {
         InputStream inputStream = s3Service.downloadResource( imagePath );
 
         String fileName = imagePath.substring(imagePath.lastIndexOf( "/" ) + 1, imagePath.length());
+        String fileFormat = fileName.substring( fileName.lastIndexOf( "." ) + 1, fileName.length());
         String resourcePath = imagePath.substring(0, imagePath.lastIndexOf( "/" ) + 1);
 
         String resourceUrl = resourcePath + "thumbnail." + fileName;
@@ -48,7 +49,7 @@ public class ResizerService {
           .asBufferedImage();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write( image, "jpg", baos );
+        ImageIO.write( image, fileFormat, baos );
         baos.flush();
         byte[] imageInByte = baos.toByteArray();
         baos.close();
