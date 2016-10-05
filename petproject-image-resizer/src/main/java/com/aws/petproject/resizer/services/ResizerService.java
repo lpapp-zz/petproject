@@ -18,19 +18,21 @@ public class ResizerService {
     @Autowired
     private S3Service s3Service;
 
-    public void resizeImage(String imagePath) throws IOException {
+    public void resizeImage( String imagePath ) throws IOException {
         InputStream inputStream = s3Service.downloadResource( imagePath );
 
-        File thumbnailImage = null;
+        String fileName = imagePath.substring(imagePath.lastIndexOf( "/" ), imagePath.length());
 
-        Thumbnails.of(inputStream)
-          .size(64, 48)
+        File thumbnailImage = new File(fileName);
+
+        Thumbnails.of( inputStream )
+          .size( 64, 48 )
           .useOriginalFormat()
           .toFile( thumbnailImage );
 
         String thumbnailS3Path = s3Service.uploadResource( thumbnailImage );
 
-        System.out.println(thumbnailS3Path);
+        System.out.println( thumbnailS3Path );
     }
 
 }
