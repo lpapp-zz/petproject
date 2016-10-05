@@ -1,10 +1,14 @@
 package com.aws.petproject.resizer.services;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -27,7 +31,7 @@ public class ResizerService {
     private ResourceLoader resourceLoader;
 
     public void resizeImage( String imagePath ) throws IOException {
-        File file = s3Service.downloadResourceAsFile( imagePath );
+        InputStream inputStream = s3Service.downloadResource( imagePath );
 
         String fileName = imagePath.substring(imagePath.lastIndexOf( "/" ) + 1, imagePath.length());
         String resourcePath = imagePath.substring(0, imagePath.lastIndexOf( "/" ) + 1);
@@ -38,12 +42,18 @@ public class ResizerService {
         WritableResource writableResource = (WritableResource) resource;
         OutputStream outputStream = writableResource.getOutputStream();
 
-        Thumbnails.of( file )
+        BufferedImage image = Thumbnails.of( inputStream )
           .size( 64, 48 )
           .useOriginalFormat()
-          .toFile( file );
+          .asBufferedImage();
 
-        outputStream.flush();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write( image, "jpg", baos );
+        baos.flush();
+        byte[] imageInByte = baos.toByteArray();
+        baos.close();
+
+        outputStream.write( imageInByte );
 
         System.out.println( resourceUrl );
     }
