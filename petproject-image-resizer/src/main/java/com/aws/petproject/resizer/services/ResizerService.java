@@ -43,6 +43,8 @@ public class ResizerService {
           .useOriginalFormat()
           .toOutputStream( outputStream );
 
+        outputStream.flush();
+
         System.out.println( resourceUrl );
     }
 
