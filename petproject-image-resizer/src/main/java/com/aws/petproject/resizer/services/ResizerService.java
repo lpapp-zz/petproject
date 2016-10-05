@@ -1,6 +1,7 @@
 package com.aws.petproject.resizer.services;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,13 +49,13 @@ public class ResizerService {
           .useOriginalFormat()
           .asBufferedImage();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write( image, fileFormat, baos );
-        baos.flush();
-        byte[] imageInByte = baos.toByteArray();
-        baos.close();
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        ImageIO.write( image, fileFormat, baos );
+//        baos.flush();
+//        byte[] imageInByte = baos.toByteArray();
+//        baos.close();
 
-        outputStream.write( imageInByte );
+        outputStream.write( ((DataBufferByte) image.getData().getDataBuffer()).getData() );
 
         System.out.println( resourceUrl );
     }
