@@ -28,9 +28,17 @@ public class MessageReceiver {
     }
 
     @MessageMapping("petproject-resizer")
-    public void messageHandler(String picturePath) throws IOException {
-        System.out.println("++++++++++++ " + picturePath);
-        resizerService.resizeImage( picturePath );
+    public void messageHandler(String imagePath) throws IOException {
+        System.out.println("++++++++++++ " + imagePath);
+//        resizerService.resizeImage( imagePath );
+
+        String fileName = imagePath.substring(imagePath.lastIndexOf( "/" ) + 1, imagePath.length());
+        String fileFormat = fileName.substring( fileName.lastIndexOf( "." ) + 1, fileName.length());
+        String resourcePath = imagePath.substring(0, imagePath.lastIndexOf( "/" ) + 1);
+
+        String resourceUrl = resourcePath + "thumbnail." + fileName;
+
+        resizerService.resize( imagePath, resourceUrl, 0.5 );
     }
 
 }
