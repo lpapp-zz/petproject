@@ -13,6 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
     <spring-starter-web-version>1.4.1.RELEASE</spring-starter-web-version>
+    <spring-cloud-aws-messaging-version>1.1.3.RELEASE</spring-cloud-aws-messaging-version>
   </properties>
 
   <parent>
@@ -39,11 +40,6 @@
       <version>${spring-cloud-version}</version>
     </dependency>
     <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-aws-messaging</artifactId>
-      <version>1.0.0.RELEASE</version>
-    </dependency>
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jersey</artifactId>
     </dependency>
@@ -56,6 +52,11 @@
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-s3</artifactId>
       <version>1.11.38</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-aws-messaging</artifactId>
+      <version>${spring-cloud-aws-messaging-version}</version>
     </dependency>
   </dependencies>
 
